@@ -2,11 +2,12 @@
 
 import { FirebaseAuthAdapter } from '@/adapters/firebase/auth'
 import { AuthService } from '@/application/services/auth'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { CardContent, CardFooter } from '@/components/ui/card'
 import { Input } from "@/components/ui/input"
 import { Label } from '@/components/ui/label'
 import { zodResolver } from '@hookform/resolvers/zod'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -43,8 +44,9 @@ export default function AuthSignInFormComponent() {
                 <Label htmlFor="password">Senha</Label>
                 <Input {...register('password')} id="password" type="password" placeholder='Senha' />
             </CardContent>
-            <CardFooter>
-                <Button variant="outline">Acessar</Button>
+            <CardFooter className='flex flex-col gap-2'>
+                <Button>Acessar</Button>
+                <Link href='/sign-up' className={buttonVariants({ variant: "link" })}>Novo? Cadastre-se</Link>
             </CardFooter>
         </form>
     )

@@ -2,6 +2,10 @@
 
 import { FirebaseAuthAdapter } from '@/adapters/firebase/auth'
 import { AuthService } from '@/application/services/auth'
+import { Button } from '@/components/ui/button'
+import { CardContent, CardFooter } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import React from 'react'
@@ -43,13 +47,17 @@ export default function AuthSignUpFormComponent() {
 
     return (
         <form onSubmit={handleSubmit(handleSignUp)}>
-            <label htmlFor="email">Email</label>
-            <input {...register('email')} id="email" type="email" placeholder='Email'/>
-            <label htmlFor="password">Senha</label>
-            <input {...register('password')}id="password" type="password" placeholder='Senha'/>
-            <label htmlFor="password">Confirmar senha</label>
-            <input {...register('confirm_password')}id="password" type="password" placeholder='Confirmar senha'/>
-            <button type="submit">Submit</button>
+            <CardContent className='flex flex-col gap-2'>
+                <Label htmlFor="email">Email</Label>
+                <Input {...register('email')} id="email" type="email" placeholder='Email' autoFocus />
+                <Label htmlFor="password">Senha</Label>
+                <Input {...register('password')} id="password" type="password" placeholder='Senha' />
+                <Label htmlFor="password">Confirmar senha</Label>
+                <Input {...register('confirm_password')} id="password" type="password" placeholder='Confirmar senha' />
+            </CardContent>
+            <CardFooter className='flex flex-col gap-2'>
+                <Button type="submit">Submit</Button>
+            </CardFooter>
         </form>
     )
 }

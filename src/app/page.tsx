@@ -5,7 +5,7 @@ import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/ca
 export default function AuthPage() {
   return (
     <div className='flex h-screen'>
-      <Card className='m-auto w-1/5 h-1/3'>
+      <Card className='m-auto'>
         <CardHeader>
           <CardTitle>Login</CardTitle>
           <CardDescription>Informe as credenciais para acessar</CardDescription>

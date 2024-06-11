@@ -1,11 +1,17 @@
 import React from 'react'
 import AuthSignUpFormComponent from './form'
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function AuthSignUpPage() {
   return (
-    <div>
-      <h1>SignUp</h1>
-      <AuthSignUpFormComponent />
+    <div className='flex h-screen'>
+      <Card className='m-auto'>
+        <CardHeader>
+          <CardTitle>Cadastre-se</CardTitle>
+          <CardDescription>Informe os campos abaixo para se cadastrar</CardDescription>
+        </CardHeader>
+        <AuthSignUpFormComponent />
+      </Card>
     </div>
   )
 }
