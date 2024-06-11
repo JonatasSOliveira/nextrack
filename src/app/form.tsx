@@ -2,6 +2,7 @@
 
 import { FirebaseAuthAdapter } from '@/adapters/firebase/auth'
 import { AuthService } from '@/application/services/auth'
+import { Button } from '@/components/ui/button'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import React from 'react'
@@ -35,9 +36,9 @@ export default function AuthSignInFormComponent() {
         <form onSubmit={handleSubmit(handleSignIn)}>
             <label htmlFor="email">Email</label>
             <input {...register('email')} id="email" type="email" placeholder='Email'/>
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">Senha</label>
             <input {...register('password')}id="password" type="password" placeholder='Senha'/>
-            <button type="submit">Submit</button>
+            <Button variant="outline">Acessar</Button>
         </form>
     )
 }

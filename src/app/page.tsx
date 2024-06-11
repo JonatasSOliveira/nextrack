@@ -1,11 +1,11 @@
-import Image from "next/image";
+import React from 'react'
+import AuthSignInFormComponent from './form'
 
-export default function Home() {
+export default function AuthPage() {
   return (
-    <main>
-      <h1 className="text-3xl font-bold underline">
-        Hello world!
-      </h1>
-    </main>
-  );
+    <div>
+      <h1>Sign In</h1>
+      <AuthSignInFormComponent />
+    </div>
+  )
 }
