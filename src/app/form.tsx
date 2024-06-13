@@ -12,6 +12,8 @@ import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { homePageDefinition } from './private/home/page'
+import { setSession } from '@/lib/auth'
 
 const authService = new AuthService(new FirebaseAuthAdapter())
 
@@ -32,8 +34,17 @@ export default function AuthSignInFormComponent() {
 
     const handleSignIn = async (data: AuthSignInFormData) => {
         const signInResponse = await authService.signIn(data)
-        console.log('signInResponse', signInResponse)
-        router.push('/home')
+        const response = await fetch('/api/session', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ user: signInResponse }),
+        })
+
+        if (response.ok) {
+            router.push(homePageDefinition.path)
+        }
     }
 
     return (

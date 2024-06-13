@@ -1,0 +1,1 @@
+export const PRIVATE_ROUTE_INITIAL_PATH = '/private'
