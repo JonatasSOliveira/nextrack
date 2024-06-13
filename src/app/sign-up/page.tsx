@@ -1,12 +1,6 @@
 import React from 'react'
 import AuthSignUpFormComponent from './form'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { PageDefinition } from '@/components/navigation-drawer/screen-routes'
-
-export const authSignUpPageDefinition: PageDefinition = {
-  label: 'Crie sua conta',
-  path: '/sign-up',
-}
 
 export default function AuthSignUpPage() {
   return (

@@ -1,12 +1,6 @@
 import React from 'react'
 import AuthSignInFormComponent from './form'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { PageDefinition } from '@/components/navigation-drawer/screen-routes'
-
-export const authPageDefinition: PageDefinition = {
-  label: 'Login',
-  path: '/',
-}
 
 export default function AuthPage() {
   return (

@@ -12,8 +12,7 @@ import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { homePageDefinition } from './private/home/page'
-import { setSession } from '@/lib/auth'
+import { homePageDefinition } from './private/home/page-definition'
 
 const authService = new AuthService(new FirebaseAuthAdapter())
 
