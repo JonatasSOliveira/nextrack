@@ -8,7 +8,7 @@ interface Session extends AuthenticatedUserResponseDTO {
     expires: Date
 }
 
-const key = new TextEncoder().encode(process.env.NEXT_PUBLIC_SECRET_KEY)
+const key = new TextEncoder().encode(process.env.JWT_SECRET_KEY)
 
 async function encrypt(payload: any) {
     return await new SignJWT(payload)
