@@ -31,7 +31,7 @@ export default function NavigationDrawer() {
                 </DrawerHeader> */}
                 {navRoutes.map((screen, index) => (
                     <Link key={index} href={screen.path} className={buttonVariants({ variant: "link" })}>
-                        {screen.label}
+                        {screen.title}
                     </Link>
                 ))}
                 {/* <DrawerFooter>

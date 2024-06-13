@@ -1,11 +1,12 @@
 
-import NavigationDrawer from '@/components/navigation-drawer/navigation-drawer'
+import ContainerWithNav from '@/components/container-with-nav/container-with-nav'
 import React from 'react'
+import { homePageDefinition } from './page-definition'
 
 export default function HomePage() {
   return (
-    <div className='h-screen w-screen flex items-end justify-center'>
-      <NavigationDrawer />
-    </div>
+    <ContainerWithNav>
+      <h1>{homePageDefinition.title}</h1>
+    </ContainerWithNav>
   )
 }

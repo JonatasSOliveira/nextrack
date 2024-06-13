@@ -3,5 +3,5 @@ import { PRIVATE_ROUTE_INITIAL_PATH } from '@/constants/route'
 
 export const homePageDefinition: PageDefinition = {
     path: `${PRIVATE_ROUTE_INITIAL_PATH}/home`,
-    label: 'Início'
+    title: 'Início'
 }

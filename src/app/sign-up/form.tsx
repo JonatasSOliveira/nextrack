@@ -55,6 +55,8 @@ export default function AuthSignUpFormComponent() {
         }
     }
 
+    const goBack = () => router.back()
+
     return (
         <form onSubmit={handleSubmit(handleSignUp)}>
             <CardContent className='flex flex-col gap-2'>
@@ -65,8 +67,9 @@ export default function AuthSignUpFormComponent() {
                 <Label htmlFor='password'>Confirmar senha</Label>
                 <Input {...register('confirm_password')} id='confirm-password' type='password' placeholder='Confirmar senha' />
             </CardContent>
-            <CardFooter className='flex flex-col gap-2'>
-                <Button type='submit'>Submit</Button>
+            <CardFooter className='flex flex-row gap-2 justify-around'>
+                <Button type='button' onClick={goBack}>Voltar</Button>
+                <Button type='submit'>Cadastrar</Button>
             </CardFooter>
         </form>
     )
