@@ -1,4 +1,5 @@
 'use server'
+
 import { AuthService } from '@/application/services/auth'
 import { FirebaseAuthAdapter } from '@/adapters/firebase/auth'
 import { AuthSignInFormData } from './form-schema'

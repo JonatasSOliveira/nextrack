@@ -9,21 +9,28 @@ import { Button } from '@/components/ui/button'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import { PersonFormSchema, personFormSchema } from './form-schema'
-import { createPerson } from './actions'
+import { PersonListResponseDTO } from '@/domain/dtos/person/response/list'
 
 
-export default function PersonFormComponent() {
+export interface PersonFormComponentProps {
+    person?: PersonListResponseDTO
+    action: (person: PersonFormSchema) => Promise<void>
+}
+
+export default function PersonFormComponent({person, action}: PersonFormComponentProps) {
     const router = useRouter()
 
     const { register, handleSubmit } = useForm<PersonFormSchema>({
         mode: 'onSubmit',
         resolver: zodResolver(personFormSchema),
+        defaultValues: person
     })
 
     const goBack = () => router.back()
 
     const formAction: () => void = handleSubmit(async (data: PersonFormSchema) => {
-        await createPerson(data)
+        await action(data)
+        goBack()
     });
 
     return (
@@ -33,8 +40,8 @@ export default function PersonFormComponent() {
                 <Input {...register('name')} type="text" id="name" autoFocus  />
             </CardContent>
             <CardFooter className='flex flex-row gap-2 justify-around'>
-                <Button type='button' onClick={goBack}>Voltar</Button>
-                <Button type='submit'>Cadastrar</Button>
+                <Button type='button' onClick={goBack} variant='secondary'>Voltar</Button>
+                <Button type='submit'>{person ? 'Atualizar' : 'Cadastrar'}</Button>
             </CardFooter>
         </form>
     )

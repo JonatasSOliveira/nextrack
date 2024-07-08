@@ -1,8 +1,8 @@
 import { firebaseFirestore } from '@/infra/firebase'
-import { DocumentReference, addDoc, collection, doc, getDocs, updateDoc, query, where } from 'firebase/firestore'
+import { DocumentReference, addDoc, collection, doc, getDocs, updateDoc, query, where, getDoc } from 'firebase/firestore'
 
 export abstract class GenericFirebaseRepository<CreateRequestDTO, ListResponseDTO> {
-    protected col = collection(firebaseFirestore, 'PERSON')
+    protected col = collection(firebaseFirestore, 'persons')
 
     constructor(protected readonly collectionName: string) { }
 
@@ -10,8 +10,18 @@ export abstract class GenericFirebaseRepository<CreateRequestDTO, ListResponseDT
         return doc(this.col, id)
     }
 
+    private async getDataOrNotFound(id: string, userId: string): Promise<ListResponseDTO> {
+        const docRef = this.getRef(id)
+        const doc = (await getDoc(docRef)).data()
+        if (doc?.user_id !== userId) {
+            throw Error('Not found')
+        }
+
+        return doc as ListResponseDTO
+    }
+
     public async create(data: CreateRequestDTO): Promise<void> {
-        const docRef = await addDoc(this.col, data as any)
+        await addDoc(this.col, data as any)
     }
 
     public async list(userId: string): Promise<ListResponseDTO[]> {
@@ -20,8 +30,13 @@ export abstract class GenericFirebaseRepository<CreateRequestDTO, ListResponseDT
         return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }) as ListResponseDTO)
     }
 
-    public async update<UpdateDTO>(docRef: DocumentReference, data: Partial<CreateRequestDTO> | UpdateDTO): Promise<void> {
-        await updateDoc(docRef, data as any)
+    public async update<UpdateDTO>(id: string, userId: string, data: Partial<CreateRequestDTO> | UpdateDTO): Promise<void> {
+        this.getDataOrNotFound(id, userId)
+        await updateDoc(this.getRef(id), data as any)
+    }
+
+    public async read(id: string, userId: string): Promise<ListResponseDTO> {
+        return this.getDataOrNotFound(id, userId)
     }
 
 

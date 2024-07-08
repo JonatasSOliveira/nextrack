@@ -13,7 +13,15 @@ export class PersonService implements PersonPort {
         return await this.adapter.list(userId)
     }
 
+    public async read(personId: string, userId: string): Promise<PersonListResponseDTO> {
+        return await this.adapter.read(personId, userId);
+    }
+    
     public async delete(personId: string): Promise<void> {
         await this.adapter.delete(personId)
+    }
+
+    public async update(personId: string, person: PersonCreateRequestDTO): Promise<void> {
+        await this.adapter.update(personId, person)
     }
 }

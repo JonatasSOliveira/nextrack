@@ -6,14 +6,18 @@ import { GameService } from '@/application/services/game'
 import { GameFirebaseAdapter } from '@/adapters/firebase/game'
 import { CategoryService } from '@/application/services/category'
 import { CategoryFirebaseAdapter } from '@/adapters/firebase/category'
+import { getSession } from '@/lib/auth'
 
 const personService = new PersonService(new PersonFirebaseAdapter())
 const gameService = new GameService(new GameFirebaseAdapter())
 const categoryService = new CategoryService(new CategoryFirebaseAdapter())
 
 export default async function PersonGameFormPage() {
+    const session = await getSession()
+    if (!session) return null
+
     const [persons, games, categories] = await Promise.all(
-        [personService.list(), gameService.list(), categoryService.list()]
+        [personService.list(session.id), gameService.list(session.id), categoryService.list(session.id)]
     )
 
     return (

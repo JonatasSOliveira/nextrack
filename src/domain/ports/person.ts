@@ -4,5 +4,7 @@ import { GenericPersistPort } from "./generic-persist";
 
 export interface PersonPort extends GenericPersistPort<PersonCreateRequestDTO> {
     list(userId: string): Promise<PersonListResponseDTO[]>
+    read(personId: string, userId: string): Promise<PersonListResponseDTO>
     delete(personId: string): Promise<void>
+    update(personId: string, person: PersonCreateRequestDTO): Promise<void>
 }
