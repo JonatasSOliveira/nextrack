@@ -10,8 +10,8 @@ export class GameService implements GamePort {
         await this.adapter.create(game)
     }
 
-    public async list(): Promise<GameListResponseDTO[]> {
-        return await this.adapter.list()
+    public async list(userId: string): Promise<GameListResponseDTO[]> {
+        return await this.adapter.list(userId)
     }
 
 }

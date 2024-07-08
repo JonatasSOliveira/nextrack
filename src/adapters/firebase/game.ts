@@ -10,8 +10,8 @@ export class GameFirebaseAdapter implements GamePort {
         await this.gameRepository.create(game)
     }
 
-    public async list(): Promise<GameListResponseDTO[]> {
-        return await this.gameRepository.list()
+    public async list(userId: string): Promise<GameListResponseDTO[]> {
+        return await this.gameRepository.list(userId)
     }
 
 }

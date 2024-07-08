@@ -1,7 +1,5 @@
 'use client'
 
-import { FirebaseAuthAdapter } from '@/adapters/firebase/auth'
-import { AuthService } from '@/application/services/auth'
 import { Button } from '@/components/ui/button'
 import { CardContent, CardFooter } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -10,26 +8,10 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 import { homePageDefinition } from '../private/home/page-definition'
-
-const authService = new AuthService(new FirebaseAuthAdapter())
-
-const authSignInFormSchema = z.object({
-    email: z.string().email(),
-    password: z.string().min(6),
-    confirm_password: z.string().min(6),
-}).superRefine(({ confirm_password, password }, ctx) => {
-    if (confirm_password !== password) {
-        ctx.addIssue({
-            code: 'custom',
-            message: 'The passwords did not match',
-            path: ['confirmPassword']
-        });
-    }
-});
-
-type AuthSignUpFormData = z.infer<typeof authSignInFormSchema>
+import { AuthSignUpFormData } from './form-schema'
+import { authSignInFormSchema } from '../form-schema'
+import { signUp } from './actions'
 
 
 export default function AuthSignUpFormComponent() {
@@ -40,25 +22,15 @@ export default function AuthSignUpFormComponent() {
         resolver: zodResolver(authSignInFormSchema),
     })
 
-    const handleSignUp = async (data: AuthSignUpFormData) => {
-        const signUpResponse = await authService.signUp(data)
-        const response = await fetch('/api/session', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ user: signUpResponse }),
-        })
-
-        if (response.ok) {
-            router.push(homePageDefinition.path)
-        }
-    }
+    const formAction: () => void = handleSubmit(async (data: AuthSignUpFormData) => {
+        await signUp(data);
+        router.push(homePageDefinition.path)
+    });
 
     const goBack = () => router.back()
 
     return (
-        <form onSubmit={handleSubmit(handleSignUp)}>
+        <form action={formAction}>
             <CardContent className='flex flex-col gap-2'>
                 <Label htmlFor='email'>Email</Label>
                 <Input {...register('email')} id='email' type='email' placeholder='Email' autoFocus />

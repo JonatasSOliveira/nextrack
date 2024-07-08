@@ -1,7 +1,5 @@
 "use client"
 
-import { FirebaseAuthAdapter } from '@/adapters/firebase/auth'
-import { AuthService } from '@/application/services/auth'
 import { Button, buttonVariants } from '@/components/ui/button'
 import { CardContent, CardFooter } from '@/components/ui/card'
 import { Input } from "@/components/ui/input"
@@ -11,17 +9,10 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
 import { homePageDefinition } from './private/home/page-definition'
+import { AuthSignInFormData, authSignInFormSchema } from './form-schema'
+import { signIn } from './actions'
 
-const authService = new AuthService(new FirebaseAuthAdapter())
-
-const authSignInFormSchema = z.object({
-    email: z.string().email(),
-    password: z.string().min(6),
-})
-
-type AuthSignInFormData = z.infer<typeof authSignInFormSchema>
 
 export default function AuthSignInFormComponent() {
     const router = useRouter()
@@ -31,23 +22,13 @@ export default function AuthSignInFormComponent() {
         resolver: zodResolver(authSignInFormSchema),
     })
 
-    const handleSignIn = async (data: AuthSignInFormData) => {
-        const signInResponse = await authService.signIn(data)
-        const response = await fetch('/api/session', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ user: signInResponse }),
-        })
-
-        if (response.ok) {
-            router.push(homePageDefinition.path)
-        }
-    }
+    const formAction: () => void = handleSubmit(async (data: AuthSignInFormData) => {
+        await signIn(data);
+        router.push(homePageDefinition.path)
+    });
 
     return (
-        <form onSubmit={handleSubmit(handleSignIn)}>
+        <form action={formAction}>
             <CardContent className='flex flex-col gap-2'>
                 <Label htmlFor="email">Email</Label>
                 <Input {...register('email')} id="email" type="email" placeholder='Email' autoFocus />
