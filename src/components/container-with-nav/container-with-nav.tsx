@@ -8,7 +8,7 @@ interface ContainerWithNavProps {
 export default function ContainerWithNav({ children }: ContainerWithNavProps) {
     return (
         <div className='h-screen w-screen flex flex-col'>
-            <div className='flex-1'>
+            <div className='flex-1 p-2'>
                 {children}
             </div>
             <NavigationDrawer />

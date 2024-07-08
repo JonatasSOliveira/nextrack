@@ -1,8 +1,8 @@
 import { firebaseFirestore } from '@/infra/firebase'
-import { DocumentReference, addDoc, collection, doc, getDocs, updateDoc } from 'firebase/firestore'
+import { DocumentReference, addDoc, collection, doc, getDocs, updateDoc, query, where } from 'firebase/firestore'
 
 export abstract class GenericFirebaseRepository<CreateRequestDTO, ListResponseDTO> {
-    protected col = collection(firebaseFirestore, this.collectionName)
+    protected col = collection(firebaseFirestore, 'PERSON')
 
     constructor(protected readonly collectionName: string) { }
 
@@ -14,9 +14,10 @@ export abstract class GenericFirebaseRepository<CreateRequestDTO, ListResponseDT
         const docRef = await addDoc(this.col, data as any)
     }
 
-    public async list(): Promise<ListResponseDTO[]> {
-        const query = await getDocs(this.col)
-        return query.docs.map(doc => ({ id: doc.id, ...doc.data() }) as ListResponseDTO)
+    public async list(userId: string): Promise<ListResponseDTO[]> {
+        const q = query(this.col, where('user_id', '==', userId))
+        const querySnapshot = await getDocs(q)
+        return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }) as ListResponseDTO)
     }
 
     public async update<UpdateDTO>(docRef: DocumentReference, data: Partial<CreateRequestDTO> | UpdateDTO): Promise<void> {

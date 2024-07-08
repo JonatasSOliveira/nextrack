@@ -10,8 +10,11 @@ export class PersonFirebaseAdapter implements PersonPort {
         await this.personRepository.create(person)
     }
 
-    public async list(): Promise<PersonListResponseDTO[]> {
-        return await this.personRepository.list()
+    public async list(userId: string): Promise<PersonListResponseDTO[]> {
+        return await this.personRepository.list(userId)
     }
 
+    public async delete(personId: string): Promise<void> {
+        console.log('Hello from server', personId)
+    }
 }

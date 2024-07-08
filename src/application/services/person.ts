@@ -9,8 +9,11 @@ export class PersonService implements PersonPort {
         await this.adapter.create(person)
     }
 
-    public async list(): Promise<PersonListResponseDTO[]> {
-        return await this.adapter.list()
+    public async list(userId: string): Promise<PersonListResponseDTO[]> {
+        return await this.adapter.list(userId)
     }
 
+    public async delete(personId: string): Promise<void> {
+        await this.adapter.delete(personId)
+    }
 }
