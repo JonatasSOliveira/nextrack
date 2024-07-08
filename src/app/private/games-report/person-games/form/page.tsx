@@ -14,8 +14,6 @@ const categoryService = new CategoryService(new CategoryFirebaseAdapter())
 
 export default async function PersonGameFormPage() {
     const session = await getSession()
-    if (!session) return null
-
     const [persons, games, categories] = await Promise.all(
         [personService.list(session.id), gameService.list(session.id), categoryService.list(session.id)]
     )

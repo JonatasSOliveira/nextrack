@@ -14,7 +14,7 @@ import { PersonListResponseDTO } from '@/domain/dtos/person/response/list'
 
 export interface PersonFormComponentProps {
     person?: PersonListResponseDTO
-    action: (person: PersonFormSchema) => Promise<void>
+    action: (personData: PersonFormSchema) => Promise<void>
 }
 
 export default function PersonFormComponent({person, action}: PersonFormComponentProps) {

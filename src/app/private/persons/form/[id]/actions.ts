@@ -8,16 +8,12 @@ import { PersonFormSchema } from '../form-schema'
 
 export async function getPerson(personId: string): Promise<PersonListResponseDTO> {
     const session = await getSession()
-    if (!session) throw new Error('Usuário não autenticado')
-
     const personService = new PersonService(new PersonFirebaseAdapter())
     return await personService.read(personId, session.id)
 }
 
-export async function updatePerson(person: PersonFormSchema, personId: string): Promise<void> {
+export async function updatePerson(personData: PersonFormSchema, personId: string): Promise<void> {
     const session = await getSession()
-    if (!session) throw new Error('Usuário não autenticado')
-
     const personService = new PersonService(new PersonFirebaseAdapter())
-    await personService.update(personId, {...person, user_id: session.id})
+    await personService.update(personId, {...personData, user_id: session.id})
 }

@@ -5,10 +5,8 @@ import { PersonService } from "@/application/services/person"
 import { PersonFormSchema } from "./form-schema"
 import { getSession } from "@/lib/auth"
 
-export async function createPerson(person: PersonFormSchema): Promise<void> {
+export async function createPerson(personData: PersonFormSchema): Promise<void> {
     const session = await getSession()
-    if (!session) throw new Error('Usuário não autenticado')
-
     const personService = new PersonService(new PersonFirebaseAdapter())
-    personService.create({...person, user_id: session.id})
+    personService.create({...personData, user_id: session.id})
 }

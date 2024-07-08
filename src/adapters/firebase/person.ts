@@ -18,8 +18,8 @@ export class PersonFirebaseAdapter implements PersonPort {
         return await this.personRepository.read(personId, userId)
     }
 
-    public async delete(personId: string): Promise<void> {
-        console.log('Hello from server', personId)
+    public async logicalDelete(personId: string, userId: string): Promise<void> {
+        return await this.personRepository.logicalDelete(personId, userId)
     }
 
     public async update(personId: string, person: PersonCreateRequestDTO): Promise<void> {

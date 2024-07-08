@@ -10,14 +10,11 @@ import {
     AlertDialogTitle, 
     AlertDialogTrigger
  } from '@/components/ui/alert-dialog'
-import { PersonListResponseDTO } from '@/domain/dtos/person/response/list'
-import DeletePersonConfirmBtn from './delete-person-confirm-btn'
+import DeletePersonConfirmBtn, { DeletePersonConfirmBtnProps } from './delete-person-confirm-btn'
 
-interface DeletePersonButton {
-    person: PersonListResponseDTO
-}
+export default function DeletePersonAlert(props: DeletePersonConfirmBtnProps) {
+    const { person } = props;
 
-export default function DeletePersonAlert({ person }: DeletePersonButton) {
     return (
         <AlertDialog>
             <AlertDialogTrigger asChild>
@@ -32,7 +29,7 @@ export default function DeletePersonAlert({ person }: DeletePersonButton) {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                     <AlertDialogCancel>Cancelar</AlertDialogCancel>
-                    <DeletePersonConfirmBtn personId={person.id} />
+                    <DeletePersonConfirmBtn {...props} />
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

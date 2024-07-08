@@ -41,12 +41,12 @@ export async function logout(): Promise<void> {
     cookies().set('session', '', { expires: new Date(0) })
 }
 
-export async function getSession(): Promise<Session | null> {
+export async function getSession(): Promise<Session> {
     const session = cookies().get('session')?.value
-    if (!session) return null
+    if (!session) throw new Error('User not authenticated')
 
     const decryptedSession = (await decrypt(session)) as Session
-    if (!decryptedSession) return null
+    if (!decryptedSession) throw new Error('User not authenticated')
 
     decryptedSession.expires = new Date(decryptedSession.expires)
     return decryptedSession

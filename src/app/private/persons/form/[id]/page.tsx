@@ -6,9 +6,9 @@ import { PersonFormSchema } from '../form-schema'
 export default async function EditPersonFormPage({params: {id: personId}}: {params: {id: string}}) {
     const person = await getPerson(personId)
 
-    const handleAction = async (person: PersonFormSchema) => {
+    const handleAction = async (personData: PersonFormSchema) => {
         'use server'
-        return await updatePerson(person, personId)
+        return await updatePerson(personData, personId)
     }
 
     return <PersonFormCard person={person} action={handleAction}/>

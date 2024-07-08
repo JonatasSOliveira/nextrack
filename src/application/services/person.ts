@@ -17,8 +17,8 @@ export class PersonService implements PersonPort {
         return await this.adapter.read(personId, userId);
     }
     
-    public async delete(personId: string): Promise<void> {
-        await this.adapter.delete(personId)
+    public async logicalDelete(personId: string, userId: string): Promise<void> {
+        await this.adapter.logicalDelete(personId, userId)
     }
 
     public async update(personId: string, person: PersonCreateRequestDTO): Promise<void> {
