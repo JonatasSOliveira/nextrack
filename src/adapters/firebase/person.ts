@@ -10,8 +10,19 @@ export class PersonFirebaseAdapter implements PersonPort {
         await this.personRepository.create(person)
     }
 
-    public async list(): Promise<PersonListResponseDTO[]> {
-        return await this.personRepository.list()
+    public async list(userId: string): Promise<PersonListResponseDTO[]> {
+        return await this.personRepository.list(userId)
     }
 
+    public async read(personId: string, userId: string): Promise<PersonListResponseDTO> {
+        return await this.personRepository.read(personId, userId)
+    }
+
+    public async logicalDelete(personId: string, userId: string): Promise<void> {
+        return await this.personRepository.logicalDelete(personId, userId)
+    }
+
+    public async update(personId: string, person: PersonCreateRequestDTO): Promise<void> {
+        await this.personRepository.update(personId, person.user_id, person)
+    }
 }

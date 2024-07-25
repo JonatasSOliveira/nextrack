@@ -10,8 +10,8 @@ export class CategoryFirebaseAdapter implements CategoryPort {
         await this.categoryRepository.create(category)
     }
 
-    public async list(): Promise<CategoryListResponseDTO[]> {
-        return await this.categoryRepository.list()
+    public async list(userId: string): Promise<CategoryListResponseDTO[]> {
+        return await this.categoryRepository.list(userId)
     }
 
 }

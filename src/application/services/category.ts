@@ -10,7 +10,7 @@ export class CategoryService implements CategoryPort {
         return this.adapter.create(categoryCreateDTO)
     }
 
-    public async list(): Promise<CategoryListResponseDTO[]> {
-        return await this.adapter.list()
+    public async list(userId: string): Promise<CategoryListResponseDTO[]> {
+        return await this.adapter.list(userId)
     }
 }

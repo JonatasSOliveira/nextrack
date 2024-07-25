@@ -1,11 +1,7 @@
 import React from 'react'
-import PersonFormComponent from './form'
+import PersonFormCard from './form-card'
+import { createPerson } from './actions'
 
-export default function PersonFormPage() {
-    return (
-        <div>
-            <h1>PersonFormPage</h1>
-            <PersonFormComponent />
-        </div>
-    )
+export default function CreatePersonFormPage() {
+    return <PersonFormCard action={createPerson}/>
 }
