@@ -1,11 +1,7 @@
 import React from 'react'
-import CategoryFormComponent from './form'
+import { createCategory } from './actions'
+import CategoryFormCard from './form.card'
 
 export default function CategoryFormPage() {
-    return (
-        <div>
-            <h1>CategoryFormPage</h1>
-            <CategoryFormComponent />
-        </div>
-    )
+    return <CategoryFormCard action={createCategory} />
 }

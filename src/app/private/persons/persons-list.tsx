@@ -9,7 +9,7 @@ import { personFormPageDefinition } from './form/page-definition'
 import { getPersons } from './actions'
 import { PersonListResponseDTO } from '@/domain/dtos/person/response/list'
 
-export default async function PersonsList() {
+export default function PersonsList() {
     const [isPending, startTransition] = useTransition();
     const [persons, setPersons] = useState<PersonListResponseDTO[]>([])
 
@@ -18,7 +18,7 @@ export default async function PersonsList() {
         setPersons(persons)
     })
 
-    useEffect(() => {handleGetPersons()}, [])
+    useEffect(() => { handleGetPersons() }, [])
 
     return <div className='flex flex-col gap-2'>
         {!isPending && persons.map(person => (
@@ -27,8 +27,8 @@ export default async function PersonsList() {
                     <p className="text-sm font-medium leading-none">{person.name}</p>
                 </CardHeader>
                 <CardFooter className='flex flex-row gap-2 justify-center'>
-                    <DeletePersonAlert person={person} handleGetPersons={handleGetPersons}/>
-                    <Link href={`${personFormPageDefinition.path}/${person.id}`} 
+                    <DeletePersonAlert person={person} handleGetPersons={handleGetPersons} />
+                    <Link href={`${personFormPageDefinition.path}/${person.id}`}
                         className={buttonVariants({ variant: "outline" })}>
                         Editar
                     </Link>

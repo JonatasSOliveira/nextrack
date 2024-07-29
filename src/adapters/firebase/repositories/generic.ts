@@ -1,19 +1,32 @@
 import { firebaseFirestore } from '@/infra/firebase'
-import { 
-    DocumentReference, addDoc, collection, doc, getDocs, updateDoc, query, where, getDoc, Timestamp, DocumentSnapshot 
+import {
+    DocumentReference,
+    addDoc,
+    collection,
+    doc,
+    getDocs,
+    updateDoc,
+    query,
+    where,
+    getDoc,
+    Timestamp,
+    DocumentSnapshot,
+    CollectionReference
 } from 'firebase/firestore'
 
 export abstract class GenericFirebaseRepository<CreateRequestDTO, ListResponseDTO> {
-    protected col = collection(firebaseFirestore, 'persons')
+    protected col: CollectionReference;
 
-    constructor(protected readonly collectionName: string) { }
+    constructor(protected readonly collectionName: string) {
+        this.col = collection(firebaseFirestore, collectionName)
+    }
 
     getRef(id: string): DocumentReference {
         return doc(this.col, id)
     }
 
     private convertDocToData(doc: DocumentSnapshot): ListResponseDTO {
-        const { created_at, updated_at, deleted_at, ...rest} = doc.data() as any
+        const { created_at, updated_at, deleted_at, ...rest } = doc.data() as any
 
         return {
             ...rest,
@@ -35,7 +48,7 @@ export abstract class GenericFirebaseRepository<CreateRequestDTO, ListResponseDT
     }
 
     public async create(data: CreateRequestDTO): Promise<void> {
-        await addDoc(this.col, {...data, created_at: Timestamp.now(), updated_at: Timestamp.now(), deleted_at: null})
+        await addDoc(this.col, { ...data, created_at: Timestamp.now(), updated_at: Timestamp.now(), deleted_at: null })
     }
 
     public async list(userId: string): Promise<ListResponseDTO[]> {
@@ -48,7 +61,7 @@ export abstract class GenericFirebaseRepository<CreateRequestDTO, ListResponseDT
         id: string, userId: string, data: Partial<CreateRequestDTO> | UpdateDTO
     ): Promise<void> {
         this.getDataOrNotFound(id, userId)
-        await updateDoc(this.getRef(id), {...data, updated_at: Timestamp.now()})
+        await updateDoc(this.getRef(id), { ...data, updated_at: Timestamp.now() })
     }
 
     public async read(id: string, userId: string): Promise<ListResponseDTO> {

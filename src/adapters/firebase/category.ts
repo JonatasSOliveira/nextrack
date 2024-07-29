@@ -14,4 +14,11 @@ export class CategoryFirebaseAdapter implements CategoryPort {
         return await this.categoryRepository.list(userId)
     }
 
+    public async read(categoryId: string, userId: string): Promise<CategoryListResponseDTO> {
+        return await this.categoryRepository.read(categoryId, userId)
+    }
+
+    public async update(categoryId: string, userId: string, category: CategoryCreateDTO): Promise<void> {
+        return this.categoryRepository.update(categoryId, userId, category)
+    }
 }

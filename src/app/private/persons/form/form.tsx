@@ -17,7 +17,7 @@ export interface PersonFormComponentProps {
     action: (personData: PersonFormSchema) => Promise<void>
 }
 
-export default function PersonFormComponent({person, action}: PersonFormComponentProps) {
+export default function PersonFormComponent({ person, action }: PersonFormComponentProps) {
     const router = useRouter()
 
     const { register, handleSubmit } = useForm<PersonFormSchema>({
@@ -37,7 +37,7 @@ export default function PersonFormComponent({person, action}: PersonFormComponen
         <form action={formAction}>
             <CardContent>
                 <Label htmlFor="name">Nome</Label>
-                <Input {...register('name')} type="text" id="name" autoFocus  />
+                <Input {...register('name')} type="text" id="name" autoFocus />
             </CardContent>
             <CardFooter className='flex flex-row gap-2 justify-around'>
                 <Button type='button' onClick={goBack} variant='secondary'>Voltar</Button>

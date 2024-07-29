@@ -1,35 +1,47 @@
 'use client'
 
-import { CategoryFirebaseAdapter } from '@/adapters/firebase/category'
-import { CategoryService } from '@/application/services/category'
 import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { z } from 'zod'
+import { categoryFormSchema, CategoryFormSchema } from './form-schema'
+import { CardContent, CardFooter } from '@/components/ui/card'
+import { Label } from '@radix-ui/react-label'
+import { Input } from '@/components/ui/input'
+import { Button } from '@/components/ui/button'
+import { CategoryListResponseDTO } from '@/domain/dtos/category/response/list'
+import { useRouter } from 'next/navigation'
 
-const categoryService = new CategoryService(new CategoryFirebaseAdapter())
+export interface CategoryFormComponentProps {
+    category?: CategoryListResponseDTO
+    action: (categoryData: CategoryFormSchema) => Promise<void>
+}
 
-const categoryFormSchema = z.object({
-    name: z.string()
-})
+export default function CategoryFormComponent({ category, action }: CategoryFormComponentProps) {
+    const router = useRouter()
 
-type CategoryFormSchema = z.infer<typeof categoryFormSchema>
-
-export default function CategoryFormComponent() {
     const { register, handleSubmit } = useForm<CategoryFormSchema>({
         mode: 'onSubmit',
         resolver: zodResolver(categoryFormSchema),
+        defaultValues: category
     })
 
-    const handleCreateCategory = async (data: CategoryFormSchema) => {
-        await categoryService.create(data)
-    }
+    const goBack = () => router.back()
+
+    const formAction: () => void = handleSubmit(async (data: CategoryFormSchema) => {
+        await action(data)
+        goBack()
+    });
 
     return (
-        <form onSubmit={handleSubmit(handleCreateCategory)}>
-            <label htmlFor="name">Nome</label>
-            <input type="text" id="name" {...register('name')} />
-            <button type="submit">Submit</button>
+        <form action={formAction}>
+            <CardContent>
+                <Label htmlFor="name">Nome</Label>
+                <Input  {...register('name')} type="text" id="name" autoFocus />
+            </CardContent>
+            <CardFooter className='flex flex-row gap-2 justify-around'>
+                <Button type='button' onClick={goBack} variant='secondary'>Voltar</Button>
+                <Button type='submit'>{category ? 'Atualizar' : 'Cadastrar'}</Button>
+            </CardFooter>
         </form>
     )
 }

@@ -1,3 +1,4 @@
 export interface CategoryCreateDTO {
-    name: string;
+    name: string
+    user_id: string
 }

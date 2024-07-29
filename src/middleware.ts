@@ -9,11 +9,16 @@ function redirect(req: NextRequest): NextResponse<unknown> {
 }
 
 export async function middleware(req: NextRequest) {
+    const isPrivateRoute = req.nextUrl.pathname.startsWith(PRIVATE_ROUTE_INITIAL_PATH);
+    if (!isPrivateRoute) {
+        return NextResponse.next()
+    }
+
     try {
         const session = await getSession()
         const isAuthenticated = session && session.expires > new Date()
-    
-        if (!isAuthenticated && req.nextUrl.pathname.startsWith(PRIVATE_ROUTE_INITIAL_PATH)) {
+
+        if (!isAuthenticated) {
             return redirect(req)
         }
     } catch (error) {
