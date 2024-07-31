@@ -1,20 +1,14 @@
-import ContainerWithNav from '@/components/container-with-nav/container-with-nav'
-import { buttonVariants } from '@/components/ui/button'
-import React, { Suspense } from 'react'
+import React from 'react'
 import { personsPageDefinition } from './page-definition'
-import Link from 'next/link'
-import PersonsList from './persons-list'
+import DefaultListPage from '@/components/default-list-page/default-list-page'
+import { deletePerson, getPersons } from './actions'
 
 export default function PersonsPage() {
-    return (
-        <ContainerWithNav>
-            <h1>{personsPageDefinition.title}</h1>
-            <Link href='/private/persons/form' className={buttonVariants({ variant: "outline" })}>
-                Nova pessoa
-            </Link>
-            <Suspense fallback={<p>Carregando...</p>}>
-                <PersonsList /> 
-            </Suspense>
-        </ContainerWithNav>
-    )
+    return <DefaultListPage formUrl='/private/persons/form' 
+        getDataListAction={getPersons}
+        deleteData={deletePerson}
+        idItemKey='id'
+        newRegisterLabel='Nova pessoa'
+        title={personsPageDefinition.title}
+        titleItemKey='name'/>
 }
