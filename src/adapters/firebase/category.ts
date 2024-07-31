@@ -2,23 +2,15 @@ import { CategoryCreateDTO } from '@/domain/dtos/category/request/create'
 import { CategoryListResponseDTO } from '@/domain/dtos/category/response/list'
 import { CategoryPort } from '@/domain/ports/category'
 import { CategoryFirebaseRepository } from './repositories/category'
+import { GenericFirebaseAdapter } from './generic'
 
-export class CategoryFirebaseAdapter implements CategoryPort {
-    private categoryRepository = new CategoryFirebaseRepository()
+export class CategoryFirebaseAdapter extends GenericFirebaseAdapter<CategoryCreateDTO, CategoryListResponseDTO> implements CategoryPort {
 
-    public async create(category: CategoryCreateDTO): Promise<void> {
-        await this.categoryRepository.create(category)
-    }
-
-    public async list(userId: string): Promise<CategoryListResponseDTO[]> {
-        return await this.categoryRepository.list(userId)
-    }
-
-    public async read(categoryId: string, userId: string): Promise<CategoryListResponseDTO> {
-        return await this.categoryRepository.read(categoryId, userId)
+    constructor() {
+        super(new CategoryFirebaseRepository())
     }
 
     public async update(categoryId: string, userId: string, category: CategoryCreateDTO): Promise<void> {
-        return this.categoryRepository.update(categoryId, userId, category)
+        return this.repository.update(categoryId, userId, category)
     }
 }

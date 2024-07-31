@@ -2,6 +2,5 @@ import { GameCreateRequestDTO } from "../dtos/game/request/create.js";
 import { GameListResponseDTO } from "../dtos/game/response/list.js";
 import { GenericPersistPort } from "./generic-persist.js";
 
-export interface GamePort extends GenericPersistPort<GameCreateRequestDTO> {
-    list(userId: string): Promise<GameListResponseDTO[]>
+export interface GamePort extends GenericPersistPort<GameCreateRequestDTO, GameListResponseDTO> {
 }

@@ -2,16 +2,12 @@ import { GameCreateRequestDTO } from '@/domain/dtos/game/request/create'
 import { GameListResponseDTO } from '@/domain/dtos/game/response/list'
 import { GamePort } from '@/domain/ports/game'
 import { GameFirebaseRepository } from './repositories/game'
+import { GenericFirebaseAdapter } from './generic'
 
-export class GameFirebaseAdapter implements GamePort {
-    private gameRepository = new GameFirebaseRepository()
+export class GameFirebaseAdapter extends GenericFirebaseAdapter<GameCreateRequestDTO, GameListResponseDTO> implements GamePort {
 
-    public async create(game: GameCreateRequestDTO): Promise<void> {
-        await this.gameRepository.create(game)
-    }
-
-    public async list(userId: string): Promise<GameListResponseDTO[]> {
-        return await this.gameRepository.list(userId)
+    constructor() {
+        super(new GameFirebaseRepository())
     }
 
 }
